@@ -1,6 +1,10 @@
 #!/bin/sh
 
-pgrep -a st | grep scratchpad | awk '{print $1}' | xargs -r kill && touch ~/.cache/scripts/cheat && echo  "KOJA TE KOMANDA ZANIMA?" | dmenu -fn fontawesome:large:size=25 -i -c -l 40  > ~/.cache/scripts/cheat && program=$(cat ~/.cache/scripts/cheat) && st -f fontawesome:medium:size=14 -t scratchpad -g 120x34 -e curl cheat.sh/$program 1
+#pgrep -a st | grep spterm | awk '{print $1}' | xargs -r kill 
+
+touch ~/.cache/scripts/cheat 
+
+program=$(dmenu -p "Enter a command: " -c -i -l 40)  && st -t "scratchpad" -g=80X30+2+3 -i -n cheat -e curl cheat.sh/$program 1
 
 
 

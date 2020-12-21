@@ -1,0 +1,16 @@
+#!/bin/bash
+
+dir=$( echo $1 | awk -F '/' 'BEGIN {OFS = "/"} {$(NF--)="";  print }')
+file=$(echo $1 | awk -F '/' '{print $NF}')
+pdf=$(echo $file |sed 's/\..*$/\.pdf/g')
+cd $dir 
+
+case $file in
+	*.tex) pdflatex $file ; biber $file ; pdflatex $file ;;
+	*.ms) groff -ms $file -T pdf > $pdf ;;
+esac
+
+
+
+
+exit 
