@@ -1,39 +1,95 @@
-#!/bin/bash
+#!/bin/sh
+
+
+dir="/home/filip/media/Muzika/focus"
+shock="/home/filip/media/Muzika/Metallica-Master_Of_Puppets_.mp3"
+
+skr=$(pwd)
+
+[ -z "$dir" ] && prob=d
+[ -z "$shock" ] && prob=s
+[ -z "$dir" ] && [ -z "$shock" ] && prob=ds
+
+case $prob in
+	d) [ "$1" = "-d" ] ||
+
+printf "\nPlease set a music directory using the -d flag.
+
+Example:
+
+focus.sh -d ~/music/focus" ; [ -z "$1" ] && exit ;;
+
+	s) [ "$1" = "-i" ] ||
+
+printf "\nPlease set an interruption song/sound using the -i flag.
+
+Example:
+
+focus.sh -i ~/music/metalica-master-of-puppets.mp3" ; [ -z "$1" ] && exit ;;
+
+	ds) [ "$1" = "-?" ] ||
+
+printf "\nPlease set a music directory and an interruption song/sound using the -d and -i flags.
+
+Example:
+
+focus.sh -d ~/music/focus
+focus.sh -i ~/music/metalica-master-of-puppets.mp3" ; [ -z "$1" ] && exit ;;
+
+esac
+
+case $1 in
+	-s)  i=1
+		while [ $i -le 3 ]
+		do
+			pgrep -d' ' play | xargs -r kill ; i=$((i+1)); sleep 0.4
+			pgrep -d' ' -o focus | xargs -r kill
+		done
+		echo "You quitter.. 😠"  && exit 0 ;;
+	-d) sed -i "s|^dir=.*$|dir=\"$2\"|g" "$skr"/focus.sh  ; exit ;;
+	-i) sed -i "s|^shock=.*$|shock=\"$2\"|g" "$skr"/focus.sh  ; exit ;;
+
+esac
+
+
 
 # The argument focus.sh stop will stop the noise playing and the interuption
 
-case $1 in
-	stop)  i=1; while [[ $i -le 2 ]]; do pgrep play | xargs -r kill ; let ++i; sleep 0.5; done; echo "You quitter.. 😠" ; exit 0 ;;
+
+
+# Defining variables like dur of the focus, prefered noise/music
+
+list=$(ls -1 "$dir")
+
+genre=$(printf '%s
+brownnoise
+whitenoise
+pinknoise' "$list" |
+	dmenu  \
+	-l 10 \
+	-p "What do you want to listen to?") || exit 0
+
+dur=$(dmenu  \
+	-l 10 \
+	-p "For how long you want to focus?") || exit 0
+
+song=$(find "$dir"/"$genre" | shuf -n 1)
+
+# Converts dur given in hours or minutes to seconds
+case $dur in
+	*m) durraw=$(echo "$dur"|sed 's/m//'); newdur=$((durraw*60)) ;;
+	*h) durraw=$(echo "$dur"|sed 's/h//'); newdur=$((durraw*3600)) ;;
+	*s) newdur=$(echo "$dur"|sed 's/s//') ;;
+	 x) find "$dir"/"$genre" | shuf | while  read -r line ; do
+		 				play "$line"
+					done ; exit ;;
 esac
 
+# Depending on the genre of music/noise chosen it will play the correct one.
 
-# Defining variables like duration of the focus, prefered noise/music
-
-TYPE=$(printf "brownnoise\nwhitenoise\npinknoise\nclassical\njazz\nlofi\nrain\nnature\n" | dmenu -c -l 10 -p "What do you want to listen to?") || exit 0  
-TIME=$(dmenu -c -l 10 -p "For how long you want to focus?") || exit 0
-DIR=/home/filip/media/Muzika/focus
-SHOCK=/home/filip/media/Muzika/Metallica-Master_Of_Puppets_.mp3
-SONG=$(du -al $DIR/$TYPE | awk '{print $2}' | shuf -n 1)
-
-# Converts time given in hours or minutes to seconds
-
-case $TIME in
-	*m) TIMERAW=$(echo $TIME|sed 's/min//'); NEWTIME=$(echo $((TIMERAW*60))); ;;
-	*h) TIMERAW=$(echo $TIME|sed 's/h//'); NEWTIME=$(echo $((TIMERAW*3600))); ;;
-	*s) NEWTIME=$(echo $TIME|sed 's/sec//'); ;;
-esac
-
-# Depending on the type of music/noise chosen it will play the correct one.
-
-case $TYPE in 
-	brownnoise) play -n synth $NEWTIME brownnoise ; play $SHOCK trim 0 25 fade 0 25 4 vol 10db ;;
-	whitenoise) play -n synth $NEWTIME whitenoise ; play $SHOCK trim 0 25 fade 0 25 4 vol 10db ;;
-	pinknoise) play -n synth $NEWTIME pinknoise ; play $SHOCK trim 0 25 fade 0 25 4 vol 10db ;;
-	jazz) play $SONG trim 0 $NEWTIME ; play $SHOCK trim 0 25 fade 0 25 4 vol 10db ;;
-	classical) play $SONG trim 0 $NEWTIME ; play $SHOCK trim 0 24 fade 0 25 4 vol 10db ;;
-	rain) play $SONG trim 0 $NEWTIME ; play $SHOCK trim 0 24 fade 0 25 4 vol 10db ;;
-	nature) play $SONG trim 0 $NEWTIME ; play $SHOCK trim 0 24 fade 0 25 4 vol 10db ;;
-	lofi) play $SONG trim 0 $NEWTIME ; play $SHOCK trim 0 24 fade 0 25 4 vol 10db ;;
+case $genre in
+	brownnoise|whitenoise|pinknoise) play -n synth "$newdur" brownnoise ; play "$shock" trim 0 25 fade 0 25 4 vol 10db ;;
+	jazz|classical|rain|nature|lofi) play "$song" trim 0 "$newdur" ; play "$shock" trim 0 25 fade 0 25 4 vol 10db ;;
 esac
 
 
