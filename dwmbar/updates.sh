@@ -9,7 +9,7 @@ updates=$(checkupdates | wc -l )
 
 echo "📦($updates)"
 
-case $BLOCK_BUTTON in 
+case $BLOCK_BUTTON in
 	3) notify-send "$(checkupdates)" ;;
 esac
 

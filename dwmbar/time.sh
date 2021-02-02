@@ -1,3 +1,3 @@
 #!/bin/bash
 
-date +%H:%M
+echo "🕑 $(date +%H:%M)"

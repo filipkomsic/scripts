@@ -9,4 +9,5 @@ EMO=$(cat /home/filip/.cache/scripts/selectedemoji);
 
 notify-send "$EMO has been copied to clipboard."
 
+# updated
 

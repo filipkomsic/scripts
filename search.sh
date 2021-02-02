@@ -17,7 +17,7 @@ term=$(dmenu -c -p "Enter a search term: " )
 
 [ -z $term ] && exit 0 ||
 
-case $engine in 
+case $engine in
 	duckduckgo) sr duckduckgo $term ;;
 	searx) sr searx $term ;;
 	youtube) sr youtube $term ;;
@@ -29,4 +29,3 @@ case $engine in
 	github) sr github $term ;;
 esac
 
-exit

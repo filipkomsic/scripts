@@ -1,6 +1,6 @@
 #!/bin/sh
 
-date +%a\ %d\ %b\ %Y\ 
+echo "📆 $(date +%a\ %d\ %b\ %Y\ )"
 
 	dan=$(date -u +%d)
 cal=$(cal -m -w -3)
