@@ -7,4 +7,8 @@ xset r rate 200 50
 setxkbmap -option caps:super
 # But when it is pressed only once, treat it as escape.
 killall xcape 2>/dev/null ; xcape -e 'Super_L=Escape'
+# Clear Mod5Mask key
+xmodmap -e "clear mod5"
+# Set spacebar for Mod5Mask
+xmodmap -e "add mod5 = space"
 

@@ -21,7 +21,7 @@ esac
 
 
 
-hsetroot -cover $new >/dev/null
+hsetroot -center $new >/dev/null
 
 cp $new $wal
 

@@ -39,7 +39,7 @@ focus.sh -i ~/music/metalica-master-of-puppets.mp3" ; [ -z "$1" ] && exit ;;
 esac
 
 case $1 in
-	-s)  i=1
+	s)  i=1
 		while [ $i -le 3 ]
 		do
 			pgrep -d' ' play | xargs -r kill ; i=$((i+1)); sleep 0.4
@@ -48,12 +48,12 @@ case $1 in
 		echo "You quitter.. 😠"  && exit 0 ;;
 	-d) sed -i "s|^dir=.*$|dir=\"$2\"|g" "$skr"/focus.sh  ; exit ;;
 	-i) sed -i "s|^shock=.*$|shock=\"$2\"|g" "$skr"/focus.sh  ; exit ;;
-	-t) pid=$(pgrep -a play | grep focus | awk '{print $1}')
+	t) pid=$(pgrep -a play | grep focus | awk '{print $1}')
 		state=$(ps -o state= -p "$pid")
 		[ "$state" = T ] &&
 			kill -CONT "$pid" && exit ||
 			kill -STOP "$pid" && exit ;;
-esac
+	p)
 
 
 
@@ -93,12 +93,8 @@ esac
 
 case $genre in
 	brownnoise|whitenoise|pinknoise) play -n synth "$newdur" brownnoise ; play "$shock" trim 0 25 fade 0 25 4 vol 10db ;;
-	jazz|classical|rain|nature|lofi) play "$song" trim 0 "$newdur" ; play "$shock" trim 0 25 fade 0 25 4 vol 10db ;;
+	jazz|classical|rain|nature|lofi|tech) play "$song" trim 0 "$newdur" ; play "$shock" trim 0 25 fade 0 25 4 vol 10db ;;
+esac & sleep 3 & pkill -RTMIN+11 "${STATUSBAR:-dwmblocks}"
+
+
 esac
-
-sleep 3
-
-pkill -RTMIN+11 "${STATUSBAR:-dwmblocks}"
-
-
-

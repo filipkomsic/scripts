@@ -1,16 +1,16 @@
 #!/bin/bash
 # dependencies: mpv youtube-dl fzf rofi/dmenu
-# search videos and playlists on youtube and play them in mpv, without an API 
+# search videos and playlists on youtube and play them in mpv, without an API
 # usage:
 # yt					asks for input in stdin, prompts using fzf
 # yt search query		takes input from the passed arg, prompts using fzf
 # yt -r					takes input and prompts using rofi ($guicmd)
 
 defcmd="fzf"
-guicmd="rofi -dmenu -i" #uncomment next line for dmenu
-#guicmd="dmenu -i -l 15"
+# guicmd="rofi -dmenu -i" #uncomment next line for dmenu
+guicmd="dmenu -i -l 15"
 promptcmd="$defcmd"
-if [ -z "$*" ]; then 
+if [ -z "$*" ]; then
 	echo -n "Search: "
 	read -r query
 else
@@ -20,7 +20,7 @@ else
 		*) query="$*";;
 	esac
 fi
-if [ -z "$query" ]; then exit; fi 
+if [ -z "$query" ]; then exit; fi
 # sanitise the query
 query=$(sed \
 	-e 's|+|%2B|g'\

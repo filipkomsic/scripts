@@ -9,6 +9,6 @@ case $choice in
 	Unmount) fusermount -u $HOME/phone && notify-send "Devices" "$name unmounted successfuly" --icon=/home/filip/media/icons/phone.png ;;
 esac
 
-   
+
 exit
 

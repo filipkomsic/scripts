@@ -10,4 +10,6 @@ xdotool mousemove 563 80 \
 url=$(xclip -o -sel clip)
 cd $dir
 
-youtube-dl --add-metadata -f bestaudio $url
+youtube-dl --add-metadata -f bestaudio $url && notify-send "☑️ Song Downloaded"
+
+

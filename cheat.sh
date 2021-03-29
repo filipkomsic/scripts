@@ -10,3 +10,4 @@ program=$(dmenu -p "Enter a command: " -c -i -l 40)  && st -t "scratchpad" -g=80
 
 
 
+
