@@ -7,8 +7,8 @@
 # yt -r					takes input and prompts using rofi ($guicmd)
 
 defcmd="fzf"
-# guicmd="rofi -dmenu -i" #uncomment next line for dmenu
-guicmd="dmenu -i -l 15"
+ guicmd="rofi -dmenu -i" #uncomment next line for dmenu
+#guicmd="dmenu -i -l 15"
 promptcmd="$defcmd"
 if [ -z "$*" ]; then
 	echo -n "Search: "

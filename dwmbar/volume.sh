@@ -5,12 +5,12 @@ mute=$(pulseaudio-ctl full-status |awk '{print $2}')
 [ $mute == "yes" ] && echo "🔇" ||
 
 volume=$(pulseaudio-ctl full-status | awk '{print $1}')
- 
-[ $volume -lt "40" ] &&  icon="🔈" || 
+
+[ $volume -lt "40" ] &&  icon="🔈" ||
 
 	if [ $volume -gt "70" ]
 then
-	icon="🔊" 
+	icon="🔊"
 else
 	icon="🔉"
 fi
@@ -18,6 +18,6 @@ fi
 echo "$icon $volume%"
 
 
-case $BLOCK_BUTTON in 
-	1) st -t scratchpad2 -e pulsemixer ;;
+case $BLOCK_BUTTON in
+	1) audio.sh
 esac

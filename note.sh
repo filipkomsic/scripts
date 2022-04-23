@@ -30,6 +30,14 @@ sin() {
 
 day=$(date +%d-%m)
 
+grp(){
+	cd /home/filip/dox/notes &&	sel=$(grep -Rn "^#.*" | grep -v 'Note\|sort' | rofi -dmenu -c -l 10 | awk -F: '{print "+"$2" "$1}')
+if [ -z $sel ]; then
+	exit
+else
+	echo "$sel" | xargs st -e nvim
+fi
+}
 
 entro.sh
 
@@ -41,8 +49,11 @@ grep "# Notes from $day" "$file" >/dev/null || printf "\n# Notes from %s\n\n" "$
 
 case $@ in
 	'') scratch;;
+	-n) st -e nvim -c "norm Gzzo" \
+		-c "startinsert" "$dir/../workbench.md";;
 	-c) xclip -o >> "$file";;
-	-s) cd "/home/filip/dox/notes/sort" || exit ; find . | dmenu -l 10 | xargs -r st -e nvim ;;
+	-g) grp ;;
+	-s) cd "/home/filip/dox/notes/sort" || exit ; find . | rofi -dmenu -l 10 | xargs -r st -e nvim -c "norm G"  ;;
 	-f) st -e nvim "$file" ;;
 	*) echo "$@" >> "$file";;
 esac

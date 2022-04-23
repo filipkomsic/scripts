@@ -1,4 +1,4 @@
-#!/bin/sh
+#:!/bin/sh
 
 
 dir="/home/filip/media/Muzika/focus"
@@ -69,11 +69,11 @@ genre=$(printf '%s
 brownnoise
 whitenoise
 pinknoise' "$list" |
-	dmenu  \
+	rofi -dmenu  \
 	-l 10 \
 	-p "What do you want to listen to?") || exit 0
 
-dur=$(dmenu  \
+dur=$(rofi -dmenu  \
 	-l 10 \
 	-p "For how long you want to focus?") || exit 0
 
@@ -92,9 +92,10 @@ esac
 # Depending on the genre of music/noise chosen it will play the correct one.
 
 case $genre in
-	brownnoise|whitenoise|pinknoise) play -n synth "$newdur" brownnoise ; play "$shock" trim 0 25 fade 0 25 4 vol 10db ;;
-	jazz|classical|rain|nature|lofi|tech) play "$song" trim 0 "$newdur" ; play "$shock" trim 0 25 fade 0 25 4 vol 10db ;;
+	brownnoise|whitenoise|pinknoise) play -n synth "$newdur" pinknoise ; play "$shock" trim 0 25 fade 0 25 4 vol 10db ;;
+	jazz|classical|rain|nature|lofi|tech|ambiance) play "$song" trim 0 "$newdur" ; play "$shock" trim 0 25 fade 0 25 4 vol 10db ;;
 esac & sleep 3 & pkill -RTMIN+11 "${STATUSBAR:-dwmblocks}"
 
 
 esac
+

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-STATE=$(mpc | awk 'FNR==2 { print $1 }') 
+#STATE=$(mpc | awk 'FNR==2 { print $1 }') 
 #YES=[playing]
 #NO=[paused]
 

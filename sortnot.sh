@@ -42,10 +42,10 @@ while read -r line
 do
 	case $line in
 		@bo*) echo "$line" | clean -l @bo >> "$bo" ;;
-		@mo*) echo "$line" | clean -c @mo >> "$mo" ;;
-		@td*) echo "$line" | clean -c @td >> "$td" ;;
-		@mu*) echo "$line" | clean -c @mu >> "$mu" ;;
-		@co*) echo "$line" | clean -C @co >> "$co" ;;
+		@mo*) echo "$line" | clean -l @mo >> "$mo" ;;
+		@td*) echo "$line" | clean -l @td >> "$td" ;;
+		@mu*) echo "$line" | clean -l @mu >> "$mu" ;;
+		@co*) echo "$line" | clean -l @co >> "$co" ;;
 		@di*) echo "$line" | clean -l @di >> "$di" ;;
 		@+??*) echo "$line" | new ;;
 	esac

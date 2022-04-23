@@ -1,0 +1,51 @@
+#!/bin/bash
+
+PUP='/usr/bin/pup' # CHANGE THIS (default install under ~/go/bin/pup)
+# see https://github.com/EricChiang/pup
+
+lines=$(tput lines)
+cols=$(tput cols)
+
+# numbers determined by experimentation
+#img_width=50 # $(($cols * 10 / 14))
+#img_height=50 # $(($lines * 10 / 7))
+#img_x=2
+#img_y=$(( (30 * $lines) / 58 )) # $(( ($lines - $img_height ) * 10 / 8))
+
+img_x=2
+if [[ $lines = 49 || $lines = 48 ]]; then # my full height
+    img_width=167
+    img_height=70
+    img_y=20
+elif [[ $lines = 27 ]]; then # my half height
+    img_width=40
+    img_height=20
+    img_y=15
+else
+    notify-send "newsboat: unsupported size"
+fi
+
+cd /tmp
+while read line; do
+    cp $1 /tmp/testing
+    if [[ "$line" =~ ^Feed: ]]; then
+	: # to be used later, maybe?
+    elif [[ $line =~ "pic.twitter.com" ]]; then
+	url=$(echo $line | $PUP 'a text{}' | sed 's;.*pic.twitter.com/;;')
+	if ! [[ -z $url ]]; then
+	    wget "pic.twitter.com/$url"
+	    imgfile=$(wget $(cat $url | grep "<img data-aria-label-part" | tr '"' '\t' | awk -F'\t' '{print $2}') 2>&1 | grep "saved" | awk '{print $6}')
+	    ~/scripts/vifmimg draw $img_x $img_y $img_width $img_height  ${imgfile:1:-1}
+	fi
+    elif [[ $line =~ "https://www.youtube.com/watch?v=" ]]; then
+	url=$(echo $line | sed 's;^Link: ;;')
+	if ! [[ -z $url ]]; then
+	    imgfile=$((wget $(youtube-dl --get-thumbnail $url)) 2>&1 | grep "saved" | awk '{print $6}')
+	    ~/scripts/vifmimg draw $img_x $img_y $img_width $img_height  ${imgfile:1:-1}
+	fi
+    fi
+
+
+done < $1 1>/dev/null && xdotool key --window "$(xdotool search --name nbrun | head -1)" h+q &
+
+w3m -dump -T text/html <$1 | less +k && ~/scripts/vifmimg clear

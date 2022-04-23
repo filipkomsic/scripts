@@ -9,11 +9,11 @@ stackexchange
 google
 github
 archwiki
-acronym" | dmenu -l 20 -c -p "Enter a search term: ")
+acronym" | rofi -dmenu -l 20 -c -p "Enter a search term: ")
 
 [ -z $engine ] && exit 0 ||
 
-term=$(dmenu -c -p "Enter a search term: " )
+term=$(rofi -dmenu -c -p "Enter a search term: " )
 
 [ -z $term ] && exit 0 ||
 

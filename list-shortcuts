@@ -1,0 +1,5 @@
+#!/bin/sh
+
+shortpath="$XDG_CONFIG_HOME/sxhkd/sxhkdrc"
+grep -e "#" -A 1 $shortpath|bat --language markdown
+

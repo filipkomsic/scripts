@@ -1,7 +1,0 @@
-#!/bin/bash
-
-post=$(cat $1)
-
-sed -i "s/<+-+>/$post/g" shitpost.html && echo "Blog post added"
-
-

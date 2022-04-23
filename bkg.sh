@@ -10,20 +10,25 @@
 
 wal="/home/filip/.config/scripts/wallpaper"
 
+setit() {
+hsetroot -center $wal >>/dev/null
+}
+changeit(){
+ cp $new $wal &&  setit
+}
 case $1 in
-	-r) new=$(find ~/media/wallpapers |sed "s/^\/home.*wallpapers\/$//g"|shuf -n 1);;
-	"") new=$(find ~/media/wallpapers | shuf |xargs sxiv - -t -o );;
-	*.jpg) new=$1;;
-	*.png) new=$1;;
-	*.jepg) new=$1;;
-	*.img) new=$1;;
+	-r) new=$(find ~/media/wallpapers |sed "s/^\/home.*wallpapers\/$//g"|shuf -n 1) && changeit;;
+	-s) sleep 5 && hsetroot -cover "$HOME/.config/wallpaper"  && setit;;
+	"") new=$(find ~/media/wallpapers | shuf |xargs sxiv - -t -o ) && changeit ;;
+	*.jpg) new=$1 && changeit ;;
+	*.png) new=$1 && changeit ;;
+	*.jepg) new=$1 && changeit ;;
+	*.img) new=$1 && changeit ;;
 esac
 
 
 
-hsetroot -center $new >/dev/null
-
-cp $new $wal
+#hsetroot -center $new >/dev/null && cp $new $wal
 
 
 

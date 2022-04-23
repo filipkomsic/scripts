@@ -1,3 +1,3 @@
 #!/bin/bash
 
-cat $HOME/.zhistory | dmenu -l 15 -i | xclip -sel clip || exit 0
+cat $HOME/.zhistory | rofi -dmenu -l 15 -i | xclip -sel clip || exit 0

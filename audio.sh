@@ -1,4 +1,5 @@
 #!/bin/sh
 
-pgrep pulsemixer && killall pulsemixer && exit || st -t scratchpad2 -g=80X24-3+5 -e pulsemixer
+killall pulsemixer && exit || st -t "scratchpad" -g=120X34+2+3 -i -n Audio -e pulsemixer
+
 

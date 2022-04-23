@@ -1,7 +1,7 @@
 #!/bin/bash
 
-choice=$(printf "Mount\nUnmount" | dmenu -p "What would you like to do?")
-selected=$(simple-mtpfs -l | dmenu)
+choice=$(printf "Mount\nUnmount" | rofi -dmenu -p "What would you like to do?")
+selected=$(simple-mtpfs -l | rofi -dmenu)
 dev=$(echo $selected | cut -d':' -f 1)
 name=$(echo $selected | cut -d':' -f 2)
 case $choice in
